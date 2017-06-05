@@ -60,9 +60,9 @@ def authorized():
 def mail(page_id):
     top = 100
     skip = top * page_id
-    messages = microsoft.get('me/MailFolders/AAMkADY3M2VkZjI4LTJjMjEtNGZhMS05MjBiLTU3ZWQyMDFkODc3ZgAuAAAAAADv9UQOpbLPRbfgtgI53-P4AQBAiZS0lTedQIHlewGxaW7RAFZOdABfAAA=/messages?$top={0}&$skip={1}'.format(top,skip))
+    messages = microsoft.get('me/MailFolders/AAMkADY3M2VkZjI4LTJjMjEtNGZhMS05MjBiLTU3ZWQyMDFkODc3ZgAuAAAAAADv9UQOpbLPRbfgtgI53-P4AQBAiZS0lTedQIHlewGxaW7RAFZOdABfAAA=/messages?$top={0}&$skip={1}&$select=id,conversationId,uniqueBody,sender,subject,body'.format(top,skip))
 
-    with open('data.txt', 'w') as outfile:
+    with open('data.json', 'w') as outfile:
         json.dump(messages.data, outfile)
     jsonToDB(messages.data)
     return render_template('mail.html', messages=str(messages.data), next=page_id+1)

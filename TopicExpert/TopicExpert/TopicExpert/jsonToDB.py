@@ -16,13 +16,13 @@ def connect_db():
 def delete_db():
     conn = connect_db()
     c = conn.cursor()
-    c.executescript('drop table if exists playerHistory')
+    c.executescript('drop table if exists AADTechTalk')
     conn.close()
 
 def create_db():
     conn = connect_db()
     c = conn.cursor()
-    #c.executescript('drop table if exists playerHistory')
+
     c.executescript('''create table if not exists AADTechTalk(
                                 emailId text,
                                 conversationId text,
@@ -30,6 +30,7 @@ def create_db():
                                 senderName text,
                                 subject text,
                                 body text,
+                                uniqueBody text,
                                 constraint unique_row unique (emailId,conversationId)
                                 )''')
     conn.close()
@@ -46,6 +47,7 @@ def jsonParser( raw_json ):
         mailobject.append(mail['sender']['emailAddress']['name'])
         mailobject.append(mail['subject'])
         mailobject.append(mail['body']['content'])
+        mailobject.append(mail['uniqueBody']['content'])
 
         dbobject.append(mailobject.copy())
 
@@ -61,7 +63,7 @@ def jsonToDB( raw_json ):
 
     print("Adding Values")
 
-    c.executemany('insert or ignore into AADTechTalk values (?,?,?,?,?,?)', dbobject)
+    c.executemany('insert or replace into AADTechTalk values (?,?,?,?,?,?,?)', dbobject)
 
     conn.commit()
     conn.close()
