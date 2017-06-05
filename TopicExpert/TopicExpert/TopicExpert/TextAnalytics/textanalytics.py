@@ -1,25 +1,28 @@
 import requests
+import TopicExpert.appconfig as g
 from TopicExpert.jsonToDB import *
 
 from bs4 import BeautifulSoup
 
 url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases"
 
-headers = {  'Ocp-Apim-Subscription-Key' : '2f6f29cc5d0d4f1d9a33373df2ea6911',
+headers = {  'Ocp-Apim-Subscription-Key' : g.apisecret,
              'Content-Type' : 'application/json',
              'Accept' : 'application/json'
              }
 
-payload = { 'documents' : [] }
+
 
 conn = connect_db()
 c = conn.cursor()
 c.execute("select * from AADTechTalk")
 data = c.fetchall()
 
-for email in data[:100]:
+payload = { 'documents' : [] }
+
+for email in data:
     id = email[0]
-    body = email[5]
+    body = email[6]
     soup = BeautifulSoup(body)
     # kill all script and style elements
     for script in soup(["script", "style"]):
@@ -31,3 +34,8 @@ for email in data[:100]:
 
 
 r = requests.post(url, data=json.dumps(payload), headers=headers)
+
+responseJson = r.json()
+
+for mail in responseJson['documents']:
+    c.execute("update AADTechTalk set keyPhrases = (?) where id = (?)", [str(mail['keyPhrases']), mail['id']]) 
