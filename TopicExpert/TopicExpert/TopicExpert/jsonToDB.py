@@ -31,7 +31,8 @@ def create_db():
                                 subject text,
                                 body text,
                                 uniqueBody text,
-                                constraint unique_row unique (emailId,conversationId)
+                                keyPhrases text,
+                                constraint unique_row unique (emailId)
                                 )''')
     conn.close()
 
@@ -48,6 +49,7 @@ def jsonParser( raw_json ):
         mailobject.append(mail['subject'])
         mailobject.append(mail['body']['content'])
         mailobject.append(mail['uniqueBody']['content'])
+        mailobject.append(None)
 
         dbobject.append(mailobject.copy())
 
@@ -63,7 +65,13 @@ def jsonToDB( raw_json ):
 
     print("Adding Values")
 
-    c.executemany('insert or replace into AADTechTalk values (?,?,?,?,?,?,?)', dbobject)
+    c.executemany('insert or replace into AADTechTalk values (?,?,?,?,?,?,?,?)', dbobject)
 
     conn.commit()
     conn.close()
+
+def emailFromDB( email_id ):
+    conn = connect_db()
+    c = conn.cursor()
+    c.execute('select * from AADTechTalk where rowid = ?', [str(email_id)])
+    return c.fetchone()

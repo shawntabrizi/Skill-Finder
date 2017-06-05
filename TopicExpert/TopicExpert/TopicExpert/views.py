@@ -9,7 +9,7 @@ from flask import Flask, redirect, url_for, session, request, jsonify, render_te
 from flask_oauthlib.client import OAuth, OAuthException
 from TopicExpert import app, microsoft
 import json
-
+import re
 
 import uuid
 
@@ -82,3 +82,14 @@ def me():
 @microsoft.tokengetter
 def get_microsoft_oauth_token():
     return session.get('microsoft_token')
+
+@app.route('/keyPhrases/<int:email_id>')
+def keyPhrases(email_id):
+    email = emailFromDB(email_id+1)
+    subject = email[4]
+    uniqueBody = email[6]
+    uniqueBody = uniqueBody.replace('<html><body>','')
+    uniqueBody = uniqueBody.replace('</body></html>','')
+    uniqueBody = re.sub(r'<img.*?/?>','(image) ',uniqueBody)
+    keyPhrases = email[7]
+    return render_template('keyphrases.html', subject = subject, uniqueBody = uniqueBody, keyPhrases = keyPhrases, next=email_id+1, back=email_id-1)
