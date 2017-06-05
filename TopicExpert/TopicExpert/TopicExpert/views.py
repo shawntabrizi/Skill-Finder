@@ -58,7 +58,7 @@ def authorized():
 
 @app.route('/mail/<int:page_id>')
 def mail(page_id):
-    top = 100
+    top = 1000
     skip = top * page_id
     messages = microsoft.get('me/MailFolders/AAMkADY3M2VkZjI4LTJjMjEtNGZhMS05MjBiLTU3ZWQyMDFkODc3ZgAuAAAAAADv9UQOpbLPRbfgtgI53-P4AQBAiZS0lTedQIHlewGxaW7RAFZOdABfAAA=/messages?$top={0}&$skip={1}&$select=id,conversationId,uniqueBody,sender,subject,body'.format(top,skip))
 
