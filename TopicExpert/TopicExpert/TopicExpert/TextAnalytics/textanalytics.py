@@ -7,9 +7,8 @@ import time
 from bs4 import BeautifulSoup
 
 def keyPhrases():
-    #url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases"
+    url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases"
 
-    url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/topics"
 
     headers = {  'Ocp-Apim-Subscription-Key' : g.apisecret,
                  'Content-Type' : 'application/json',
@@ -23,10 +22,7 @@ def keyPhrases():
     c.execute("select * from AADTechTalk")
     data = c.fetchall()
 
-    payload = { 'documents' : [],
-                'stopWords' : ['issue', 'error', 'user'],
-                'stopPhrases' : ['Microsoft','Azure']
-               }
+    payload = { 'documents' : [] }
 
     for email in data:
         id = email[0]
@@ -97,11 +93,20 @@ def topics():
             text = text[:int(charlen)]
 
         payload['documents'].append({'id': id, 'text': text})
+        if sys.getsizeof(str(payload)) > 30000000:
+            payload['documents'].pop()
+            break
 
 
     r = requests.post(url, data=json.dumps(payload), headers=headers)
 
-    oploc = r.headers['Operation-Location']
+    if r.headers['Operation-Location']:
+        oploc = r.headers['Operation-Location']
+    elif r.headers['Location']:
+        oploc = r.headers['Location']
+    else:
+        print("Error with Location of Operation")
+        oploc = None
 
     status = True
 

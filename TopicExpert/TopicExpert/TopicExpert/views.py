@@ -56,8 +56,12 @@ def authorized():
 
 	return redirect(url_for('me')) 
 
+@app.route('/mail')
+def mail():
+    return render_template('mail.html')
+
 @app.route('/mail/<int:page_id>')
-def mail(page_id):
+def loadMail(page_id):
     top = 1000
     skip = top * page_id
     messages = microsoft.get('me/MailFolders/AAMkADY3M2VkZjI4LTJjMjEtNGZhMS05MjBiLTU3ZWQyMDFkODc3ZgAuAAAAAADv9UQOpbLPRbfgtgI53-P4AQBAiZS0lTedQIHlewGxaW7RAFZOdABfAAA=/messages?$top={0}&$skip={1}&$select=id,conversationId,uniqueBody,sender,subject,body'.format(top,skip))
@@ -65,7 +69,7 @@ def mail(page_id):
     with open('data.json', 'w') as outfile:
         json.dump(messages.data, outfile)
     jsonToDB(messages.data)
-    return render_template('mail.html', messages=str(messages.data), next=page_id+1)
+    return render_template('loadMail.html', messages=str(messages.data), next=page_id+1)
 
 @app.route('/me')
 def me():

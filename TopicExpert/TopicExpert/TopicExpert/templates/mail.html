@@ -1,11 +1,17 @@
 ﻿<html>
 <title>Azure AD v2.0 App</title>
 <body>
-    <h1>Here is your mail! </h1>
-    <form action="/mail/{{ next }}" method="GET">
-        <p><input type="submit" value="Next Page" style="width:400px"</p>
+    <h1>Do you want to load your mail? </h1>
+    <form action="/mail/0" method="GET">
+        <p><input type="submit" value="First Page" style="width:400px"</p>
     </form>
-    <h3><br><br><br>Mail<br><br><br><br>{{ messages }}</h3><br><br><br>
+    <form action="/mail/1" method="GET">
+        <p><input type="submit" value="Second Page" style="width:400px"</p>
+    </form>
+    <form action="/mail/2" method="GET">
+        <p><input type="submit" value="Third Page" style="width:400px"</p>
+    </form>
+    <br /><br /><br />
     <form action="/me" method="GET">
         <p><input type="submit" value="Home" style="width:400px"</p>
     </form>
