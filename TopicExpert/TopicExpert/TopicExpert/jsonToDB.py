@@ -36,6 +36,28 @@ def create_db():
                                 )''')
     conn.close()
 
+def create_topics_db():
+    conn = connect_db()
+    c = conn.cursor()
+
+    c.executescript('''create table if not exists AADTechTalkTopics(
+                                id text,
+                                score numeric,
+                                keyPhrase text,
+                                constraint unique_row unique (id)
+                                )''')
+    conn.close()
+
+def create_topic_assignments_db():
+    conn = connect_db()
+    c = conn.cursor()
+
+    c.executescript('''create table if not exists AADTechTalkTopicAssignments(
+                                topicId text,
+                                documentId text,
+                                distance numeric
+                                )''')
+    conn.close()
 
 def jsonParser( raw_json ):
     dbobject = []
@@ -55,7 +77,29 @@ def jsonParser( raw_json ):
 
     return dbobject
 
+def topicsParser( topics ):
+    dbobject = []
+    for topic in topics:
+        topicobject = []
+        topicobject.append(topic['id'])
+        topicobject.append(int(topic['score']))
+        topicobject.append(topic['keyPhrase'])
+        
+        dbobject.append(topicobject.copy())
 
+    return dbobject
+
+def topicAssignmentsParser( topicAssignments ):
+    dbobject = []
+    for assignment in topicAssignments:
+        topicobject = []
+        topicobject.append(assignment['topicId'])
+        topicobject.append(assignment['documentId'])
+        topicobject.append(float(assignment['distance']))
+        
+        dbobject.append(topicobject.copy())
+
+    return dbobject
 
 def jsonToDB( raw_json ):
     conn = connect_db()
@@ -73,5 +117,45 @@ def jsonToDB( raw_json ):
 def emailFromDB( email_id ):
     conn = connect_db()
     c = conn.cursor()
-    c.execute('select * from AADTechTalk where rowid = ?', [str(email_id)])
-    return c.fetchone()
+    c.execute('select * from AADTechTalk order by rowid limit 1 offset ?', [str(email_id)])
+    email = c.fetchone()
+    conn.close()
+    return email
+
+def topicsToDB ( topics ):
+    conn = connect_db()
+    c = conn.cursor()
+
+    dbobject = topicsParser(topics)
+
+    c.executemany('insert or replace into AADTechTalkTopics values (?,?,?)', dbobject)
+
+    conn.commit()
+    conn.close()
+
+def topicAssignmentsToDB ( topicAssignments ):
+    conn = connect_db()
+    c = conn.cursor()
+
+    dbobject = topicAssignmentsParser(topicAssignments)
+
+    c.executemany('insert or replace into AADTechTalkTopicAssignments values (?,?,?)', dbobject)
+
+    conn.commit()
+    conn.close()
+
+def topicsForEmail( emailId ):
+    conn = connect_db()
+    c = conn.cursor()
+    c.execute('select * from AADTechTalkTopicAssignments where documentId = ?', [emailId])
+
+    assignments = c.fetchall()
+    topics = []
+    for assignment in assignments:
+        c.execute('select * from AADTechTalkTopics where id = ?', [assignment[0]])
+        topic = c.fetchone()
+        topics.append([topic[2], assignment[2], topic[1]])
+
+    conn.close()
+
+    return topics

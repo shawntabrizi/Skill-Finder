@@ -5,8 +5,17 @@
     <h3><br><br><br>User's Claims<br><br><br><br>{{ me }}</h3><br><br><br>
     <h3><br><br><br>Access Token<br><br><br><br>{{ token }}</h3><br><br><br>
     <form action="/mail/0" method="GET">
-        <p><input type="submit" value="View Mail" style="width:400px"</p>
+        <p><input type="submit" value="Load Mail (warning this is slow)" style="width:400px"</p>
     </form>
+    <form action="/topics/0" method="GET">
+        <p><input type="submit" value="View Topics" style="width:400px"</p>
+    </form>
+    <form action="/keyPhrases/0" method="GET">
+        <p><input type="submit" value="View Key Phrases" style="width:400px"</p>
+    </form>
+    <br />
+    <br />
+    <br />
     <form action="/logout" method="POST">
         <p><input type="submit" value="Logout" style="width:400px"</p>
     </form>

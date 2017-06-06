@@ -118,4 +118,10 @@ def topics():
 
     responseJson = r2.json()
 
+    topics = responseJson['operationProcessingResult']['topics']
+    topicAssignments = responseJson['operationProcessingResult']['topicAssignments']
+
+    topicsToDB(topics)
+    topicAssignmentsToDB(topicAssignments)
+
     conn.close()
