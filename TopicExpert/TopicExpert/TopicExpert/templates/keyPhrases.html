@@ -1,20 +1,22 @@
 ﻿<html>
-<title>Azure AD v2.0 App</title>
+<head>
+    <title>Key Phrases</title>
+</head>
 <body>
     <h1>Key Phrases</h1>
     <form action="/keyPhrases/{{ back }}" method="GET">
-        <p><input type="submit" value="Previous Page" style="width:400px"</p>
+        <p><input type="submit" value="Previous Page" style="width:400px" /></p>
     </form>
     <form action="/keyPhrases/{{ next }}" method="GET">
-        <p><input type="submit" value="Next Page" style="width:400px"</p>
+        <p><input type="submit" value="Next Page" style="width:400px" /></p>
     </form>
     <h3><br>Subject<br></h3><h4>{{ subject }}</h4><br><br />
     {% autoescape false %}
     <h3>Unique Body</h3><br><div style="margin-left: 50px;">{{ uniqueBody }}</div><br>
     {% endautoescape %}
     <h3><br><br><br>Key Phrases<br>{{ keyPhrases }}</h3><br><br><br>
-    <form action="/me" method="GET">
-        <p><input type="submit" value="Home" style="width:400px"</p>
+    <form action="/home" method="GET">
+        <p><input type="submit" value="Home" style="width:400px" /></p>
     </form>
 </body>
 </html>

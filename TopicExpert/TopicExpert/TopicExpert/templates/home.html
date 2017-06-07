@@ -1,0 +1,19 @@
+﻿<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Successfully Logged In! </h1>
+    <h3><br><br><br>User's Claims<br><br><br><br>{{ me }}</h3><br><br><br>
+    <h3><br><br><br>Access Token<br><br><br><br>{{ token }}</h3><br><br><br>
+    <form action="/folders" method="GET">
+        <p><input type="submit" value="View Mail Folders" style="width:400px" /></p>
+    </form>
+    <br />
+    <br />
+    <br />
+    <form action="/logout" method="POST">
+        <p><input type="submit" value="Logout" style="width:400px" /></p>
+    </form>
+</body>
+</html>

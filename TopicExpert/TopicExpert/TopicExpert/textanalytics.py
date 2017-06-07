@@ -6,7 +6,7 @@ import time
 
 from bs4 import BeautifulSoup
 
-def keyPhrases():
+def keyPhrasesAnalytics():
     url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases"
 
 
@@ -54,7 +54,7 @@ def keyPhrases():
     conn.commit()
     conn.close()
 
-def topics():
+def topicAnalytics( dbFileName ):
 
     url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/topics"
 
@@ -65,14 +65,14 @@ def topics():
 
 
 
-    conn = connect_db()
+    conn = connect_db( dbFileName )
     c = conn.cursor()
-    c.execute("select * from AADTechTalk")
+    c.execute("select * from Mail")
     data = c.fetchall()
 
     payload = { 'documents' : [],
-                'stopWords' : ['issue', 'error', 'user'],
-                'stopPhrases' : ['Microsoft','Azure']
+                'stopWords' : ['Shawn', 'Tabrizi'],
+                'stopPhrases' : []
                }
 
     for email in data:
@@ -87,8 +87,8 @@ def topics():
         text = text.replace('\xa0', ' ')
         text = text.replace('\r\n', ' ')
         textSize = sys.getsizeof(text)
-        if textSize > 9000:
-            fraction = 9000/textSize
+        if textSize > 25000:
+            fraction = 25000/textSize
             charlen = fraction * len(text)
             text = text[:int(charlen)]
 
@@ -115,7 +115,7 @@ def topics():
         r2dict = r2.json()
         if r2dict['status'] == 'Succeeded':
             status = False
-        elif (r2dict['status'] != 'notStarted') or (r2dict['status'] != 'Running'):
+        elif (r2dict['status'] != 'NotStarted') and (r2dict['status'] != 'Running'):
             break
         else:
             time.sleep(60)
@@ -126,7 +126,7 @@ def topics():
     topics = responseJson['operationProcessingResult']['topics']
     topicAssignments = responseJson['operationProcessingResult']['topicAssignments']
 
-    topicsToDB(topics)
-    topicAssignmentsToDB(topicAssignments)
+    topicsToDB(topics,dbFileName)
+    topicAssignmentsToDB(topicAssignments,dbFileName)
 
     conn.close()

@@ -1,12 +1,14 @@
 ﻿<html>
-<title>Azure AD v2.0 App</title>
+<head>
+    <title>Load Mail</title>
+</head>
 <body>
     <h1>Here is your mail! </h1>
-    <form action="/mail/{{ next }}" method="GET">
-        <p><input type="submit" value="Next Page" style="width:400px"</p>
+    <form action="{{ next }}" method="GET">
+        <p><input type="submit" value="Next Page" style="width:400px" /></p>
     </form>
-    <form action="/me" method="GET">
-        <p><input type="submit" value="Home" style="width:400px"</p>
+    <form action="/home" method="GET">
+        <p><input type="submit" value="Home" style="width:400px" /></p>
     </form>
     <h3><br><br><br>Mail<br><br><br><br>{{ messages }}</h3><br><br><br>
 
