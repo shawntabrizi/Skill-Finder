@@ -188,6 +188,9 @@ ClientBin/
 node_modules/
 orleans.codegen.cs
 
+# Other IDE files
+.idea
+
 # RIA/Silverlight projects
 Generated_Code/
 
@@ -249,3 +252,4 @@ ModelManifest.xml
 /TopicExpert/TopicExpert/TopicExpert/appconfig.py
 /TopicExpert/TopicExpert/topics.json
 /TopicExpert/TopicExpert/TopicExpert/db
+
