@@ -253,3 +253,7 @@ ModelManifest.xml
 /TopicExpert/TopicExpert/topics.json
 /TopicExpert/TopicExpert/TopicExpert/db
 
+quick_list.py
+*.csv
+*.db
+linkedin_topics_7-23-17.json
