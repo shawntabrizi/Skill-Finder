@@ -1,0 +1,106 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+<section class="small-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 well" id="progress-panel">
+                <h2>Data Sources</h2>
+                <ul class="list-unstyled">
+                    <li>
+                        <input type="checkbox" checked="checked"><label> Outlook Mail</label>
+                        <ul style="list-style:none;">
+                            <li><label><input type="checkbox" checked="checked"> Sent</label></li>
+                            <li><label><input type="checkbox" disabled> Inbox</label></li>
+                            <li><label><input type="checkbox" disabled> Other</label></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="option" disabled><label for="option"> SharePoint Sites</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="option" disabled><label for="option"> OneNote Notebooks</label>
+                    </li>
+                </ul>
+                <br />
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="start">Find Skills</button>
+            </div>
+            <div class="col-sm-8">
+                <h1>Application Status:</h1>
+                <ul class="fa-ul">
+                    <li><i class="fa-li fa fa-square" id="getting-emails"></i>Getting Emails <div id="count"></div></li>
+                    <li><i class="fa-li fa fa-square" id="text-analytics"></i>Text Analytics <div id="api-timer"></div></li>
+                    <li><i class="fa-li fa fa-square" id="skill-finder"></i>Skill Finder</li>
+                    <li><i class="fa-li fa fa-square" id="save-db"></i>Save to DB</li>
+                    <li><i class="fa-li fa fa-square" id="done"></i>Done</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <h4>Note:</h4>
+            <p>This process could take up to 10 minutes. Feel free to leave this window open an come back in a bit!</p>
+        </div>
+
+
+        <div class="row">
+            <h2>Status Messages:</h2>
+            <p id="message" class="well"></p>
+        </div>
+
+        <h3>Topics Refined</h3>
+        <p id="topicsRefined"></p>
+        <h3>Topics</h3>
+        <p id="topics"></p>
+
+        <div id="mail_container">
+            <h3>Emails:</h3>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $('#progress-panel').on('click', '#start', function () {
+        var source = new EventSource("/progress");
+        source.onmessage = function (event) {
+            var data = JSON.parse(event.data);
+            if (data.step == '1') {
+                $('#getting-emails').addClass('fa-spinner fa-spin').removeClass('fa-square');
+                $('#count').text(data.count + ' Emails');
+                text = '<div class="well"><p class="mail">' + data.message + '</p></div>';
+                $('#mail_container').append(text);
+                $('#message').text(data.message);
+            } else if (data.step == '2') {
+                $('#getting-emails').addClass('fa-check-square').removeClass('fa-spinner fa-spin');
+                $('#text-analytics').addClass('fa-spinner fa-spin').removeClass('fa-square');
+                $('#api-timer').text('Total Time: ' + data.count + ' sec');
+                $('#message').text(data.message);
+            } else if (data.step == '3') {
+                $('#text-analytics').addClass('fa-check-square').removeClass('fa-spinner fa-spin');
+                $('#skill-finder').addClass('fa-spinner fa-spin').removeClass('fa-square');
+                $('#topicsRefined').text(data.topicsRefined);
+                $('#message').text(data.message);
+            } else if (data.step == '4') {
+                $('#skill-finder').addClass('fa-check-square').removeClass('fa-spinner fa-spin');
+                $('#save-db').addClass('fa-spinner fa-spin').removeClass('fa-square');
+                $('#message').text(data.message);
+            } else if (data.step == '5') {
+                $('#save-db').addClass('fa-check-square').removeClass('fa-spinner fa-spin');
+                $('#done').addClass('fa-check-square').removeClass('fa-square');
+                $('#message').text(data.message);
+                event.target.close();
+                window.location.href = 'skills'
+            } else if (data.step == '0') {
+                $('#message').text(data.message);
+                $('#getting-emails').removeClass().addClass('fa-li fa fa-square');
+                $('#text-analytics').removeClass().addClass('fa-li fa fa-square');
+                $('#skill-finder').removeClass().addClass('fa-li fa fa-square');
+                $('#save-db').removeClass().addClass('fa-li fa fa-square');
+                $('#done').removeClass().addClass('fa-li fa fa-square');
+                event.target.close();
+            }
+        }
+    });
+</script>
+{% endblock %}

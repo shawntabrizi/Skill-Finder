@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/static/css/lists.css" />
+{% endblock %}
+
+{% block content %}
+<section class="small-section">
+    <div class="container">
+        <h3>Success!</h3>
+        <div id="confirmed">
+            <h4>Skills to publish:</h4>
+            {% if confirmed.0|length > 0 %}
+            {% for item in confirmed %}
+            <div class="list-confirmed"><span class="item">{{ item }}</span> <span><bold>x</bold></span></div>
+            {% endfor %}
+            {% else %}
+            <h4> Sorry, we couldn't find any skills! Would you like to enter them manually?</h4>
+            {% endif %}
+        </div>
+        <div id="other">
+            {% if other.0|length > 0 %}
+            <h4>Other suggested skills:</h4>
+            {% for item in other %}
+            <div class="list-other"><span class="item">{{ item }}</span> <span><bold>+</bold></span></div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            <button id="show-more" class="btn btn-primary btn-lg">Show more suggestions</button>
+        </div>
+        <hr />
+        <h4>Choose where to publish:</h4>
+        <div class="publish">
+            <span class="pub orange-frame" id="linkedIn">LinkedIn</span> <span class="pub orange-frame" id="delve">Delve</span> <span class="pub orange-frame" id="drWho">Dr Who</span> <span class="pub orange-frame" id="clipboard">Copy to clipboard</span>
+            <div>
+                <button id="publish" class="btn btn-primary btn-lg">Publish</button>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <span>< Analyze again</span>
+        </div>
+        
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/scripts/showskills.js"></script>
+{% endblock %}

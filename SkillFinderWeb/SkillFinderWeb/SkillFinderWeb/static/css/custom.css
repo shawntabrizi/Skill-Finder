@@ -1,0 +1,30 @@
+/* Navbar has 50px min + 20px padding*/
+.small-section {
+    padding: 70px 0;
+
+}
+
+.yel-tran-bg {
+    background-color:rgba(254,209,54,.6);
+    color: black;
+}
+
+.btn-xl {
+    color: black;
+}
+
+
+
+.navbar-brand {
+    padding: 2px 2px;
+}
+
+section {
+    padding: 70px 0;
+}
+
+@media (min-width: 768px) {
+    section {
+        padding: 100px 0;
+    }
+}

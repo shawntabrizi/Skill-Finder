@@ -1,0 +1,40 @@
+/* Layouts for lists */
+.horizontal-list {
+    list-style: none;
+}
+
+.list-confirmed {
+    font-size: 14px;
+    background: #3276b1;
+    border: 1px solid #3276b1;
+    color: white;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px 2.5px;
+}
+
+.list-other {
+    font-size: 14px;
+    border: 1px solid #3276b1;
+    color: #3276b1;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px 2.5px;
+}
+
+.orange-frame {
+    font-size: 14px;
+    border: 1px solid #df8505;
+    color: #df8505;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px 2.5px;
+}
+
+.orange-solid {
+    background-color: #df8505;
+    color: white;
+}

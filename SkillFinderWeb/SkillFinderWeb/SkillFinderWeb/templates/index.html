@@ -1,0 +1,113 @@
+﻿{% extends "layout.html" %}
+{% block content %}
+<!-- Header -->
+<header>
+    <div class="container">
+        <div class="intro-text">
+            <div class="intro-lead-in"><span class="yel-tran-bg">We find your skills, and you publish them.</span></div>
+            <div class="intro-heading"><span class="yel-tran-bg">It is that simple</span></div>
+            <a href="{{ url_for('login') }}" class="page-scroll btn btn-xl">Get Started</a>
+        </div>
+    </div>
+</header>
+<!-- goal Section -->
+<section id="goal" class="bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Our Goal</h2>
+                <h3 class="section-subheading text-muted">We believe if you can find the right person to solve your problems, you will be able to achieve more.</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 text-center">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/DWsVqwNb8Gk?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col-lg-4 text-center">
+                <p>Skill Finder is a tool to automatically find and publish skills and expertise for an individual. Other tools like LinkedIn and Delve enable users to manually submit this data, however this leads to inconsistant and out of date data. We want to fix this, and as a result, improve existing applications which take advantage of this data.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Steps Section -->
+<section id="Steps">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">How do we do it?</h2>
+                <h3 class="section-subheading text-muted">We get your skills using the Microsoft Graph, Microsoft Cognitive Services, and LinkedIn</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="timeline">
+                    <li>
+                        <div class="timeline-image">
+                            <img class="img-responsive" src="static/img/timeline/1.png" alt="">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>1. Microsoft Graph</h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-muted">First we get data from across Microsoft Graph like the company you work for, the emails you have written, the notebooks you have created, or the sites you have published.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                            <img class="img-responsive" src="static/img/timeline/2.png" alt="">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>2. Microsoft Cognitive Services</h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-muted">We then use the power of Machine Learning provided by the Microsoft Cognitive Services to extract relevant and common topics from your documents.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image">
+                            <img class="img-circle img-responsive" src="static/img/timeline/3.png" alt="">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>3. LinkedIn</h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-muted">We then refine these results using existing user data available through LinkedIn, across all industries and services.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image">
+                            <img class="img-responsive" src="static/img/timeline/4.png" alt="">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>4. Learn and Improve</h4>
+                            </div>
+                            <div class="timeline-body">
+                                <p class="text-muted">We show you the results our hard work and let you pick and choose the final list of skills that represent you. As you make updates, we learn and improve our results for the next person!</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Call to Action Section -->
+<section id="action">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>So why wait?</h2>
+                <a href="{{ url_for('login') }}" class="page-scroll btn btn-xl">Try it now!</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
