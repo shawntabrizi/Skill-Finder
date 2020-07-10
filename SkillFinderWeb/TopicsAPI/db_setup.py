@@ -5,9 +5,9 @@ import re
 client = arango.ArangoClient(
   protocol='http',
   host='localhost',
-  port='8529',
-  username='root',
-  password='anya',
+  port='6969',
+  username='username',
+  password='password',
   enable_logging=True
 )
 
